@@ -27,6 +27,9 @@ def create_slider(request):
         image = request.FILES.get("image")
         description = request.POST.get("description")
 
+        if not os.path.exists(os.path.join(settings.MEDIA_ROOT,"sliders")):
+            os.makedirs(os.path.join(settings.MEDIA_ROOT,"sliders"))
+
         new_filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_" + image.name
         filepath = os.path.join(settings.MEDIA_ROOT,"sliders",new_filename)
         with open(filepath, "wb+") as f:
@@ -92,6 +95,8 @@ def edit_slide(request,id):
                     f.write(chunk)
             slider_item.image = "/media/sliders/"+new_filename
         slider_item.save()
+        messages.success(request, "Slider updated successfully")
+        return redirect("ecadmin.slider.edit", id=id)
 
     slider_item = Slider.objects.get(id=id)
     return render(request,"ecadmin/slider/edit.html",{
