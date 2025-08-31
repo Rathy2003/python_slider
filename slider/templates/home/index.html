@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamour - Fashion Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #fef7f0 0%, #fdf2f8 50%, #f3e8ff 100%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-['Inter'] bg-white">
+    <!-- Top Banner -->
+    <div class="bg-gray-800 text-white text-center py-2 text-sm">
+        Up To 80% Off On Entire Store !
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Left Menu -->
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Wishlist</a>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-600 text-sm">USD</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-600 text-sm">English</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Logo -->
+                <div class="text-2xl font-['Playfair_Display'] font-bold text-gray-900">
+                    Glamour
+                </div>
+
+                <!-- Right Icons -->
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900 relative">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Secondary Navigation -->
+            <div class="border-t border-gray-100">
+                <div class="flex justify-center space-x-8 py-4">
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium">Fashion</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium">Accessories</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium">Collection</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium">About Us</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium relative">
+                        FAQs
+                        <span class="absolute -top-1 -right-2 bg-pink-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                    </a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-pink-500 text-sm font-medium">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="slide-in-left">
+                    <h3 class="text-gradient text-lg font-medium mb-4">Fancy Wear</h3>
+                    <h1 class="text-5xl lg:text-6xl font-['Playfair_Display'] font-bold text-gray-900 leading-tight mb-6">
+                        Shopping As You
+                        <span class="text-gradient block">Love.</span>
+                    </h1>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                    </p>
+                    <button class="bg-gradient-to-r from-pink-500 to-orange-400 text-white px-8 py-4 rounded-full font-medium hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        SHOP NOW
+                    </button>
+                </div>
+
+                <!-- Right Image Slider -->
+                <div class="slide-in-right relative">
+                    <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+                        <!-- Slider Container -->
+                        <div id="slider" class="flex transition-transform duration-500 ease-in-out">
+                            {% for item in slider_list %}
+                                <div class="min-w-full relative">
+                                    <img src="{{ item.image }}"
+                                         alt="{{ item.title }}"
+                                         class="w-full h-[600px] object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Slider Dots -->
+                    <div class="flex justify-center space-x-2 mt-6">
+                        {% for i in total_slider %}
+                            <button class="slider-dot w-3 h-3 bg-pink-500 rounded-full transition-all duration-300" data-slide="{{ forloop.counter0 }}"></button>
+{#                            <button class="slider-dot w-3 h-3 bg-gray-300 rounded-full transition-all duration-300 hover:bg-gray-400" data-slide="1"></button>#}
+{#                            <button class="slider-dot w-3 h-3 bg-gray-300 rounded-full transition-all duration-300 hover:bg-gray-400" data-slide="2"></button>#}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-50 transition-all duration-300 hover:scale-105">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-50 transition-all duration-300 hover:scale-105">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Sections -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Unlock Your Style -->
+                <div class="fade-in relative group hover-scale">
+                    <div class="card-shadow bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 h-80 flex flex-col justify-between overflow-hidden">
+                        <div>
+                            <h4 class="text-pink-500 text-sm font-medium mb-2">Unlock</h4>
+                            <h3 class="text-3xl font-['Playfair_Display'] font-bold text-gray-900 mb-4">Your Style</h3>
+                            <button class="bg-pink-500 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-pink-600 transition-colors">
+                                SHOP NOW
+                            </button>
+                        </div>
+                        <div class="absolute -right-8 -bottom-8">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616c96ce75f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                                 alt="Style"
+                                 class="w-32 h-32 object-cover rounded-full border-4 border-white shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New One Look Book -->
+                <div class="fade-in relative group hover-scale" style="animation-delay: 0.2s;">
+                    <div class="card-shadow bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 h-80 flex flex-col justify-between overflow-hidden">
+                        <div>
+                            <h4 class="text-pink-500 text-sm font-medium mb-2">New One</h4>
+                            <h3 class="text-3xl font-['Playfair_Display'] font-bold text-gray-900 mb-4">Look Book</h3>
+                            <button class="bg-pink-500 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-pink-600 transition-colors">
+                                SHOP NOW
+                            </button>
+                        </div>
+                        <div class="absolute -right-8 -bottom-8">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                                 alt="Look Book"
+                                 class="w-32 h-32 object-cover rounded-full border-4 border-white shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Big Sale New One -->
+                <div class="fade-in relative group hover-scale" style="animation-delay: 0.4s;">
+                    <div class="card-shadow bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 h-80 flex flex-col justify-between overflow-hidden">
+                        <div>
+                            <h4 class="text-pink-500 text-sm font-medium mb-2">Big Sale</h4>
+                            <h3 class="text-3xl font-['Playfair_Display'] font-bold text-gray-900 mb-4">New One</h3>
+                            <button class="bg-pink-500 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-pink-600 transition-colors">
+                                SHOP NOW
+                            </button>
+                        </div>
+                        <div class="absolute -right-8 -bottom-8">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                 alt="Big Sale"
+                                 class="w-32 h-32 object-cover rounded-full border-4 border-white shadow-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Slider functionality
+
+        let currentSlide = 0;
+        const totalSlides = {{ total_slider_count|default:0 }};
+        let slideInterval;
+
+        function updateSlider() {
+            const slider = document.getElementById('slider');
+            const dots = document.querySelectorAll('.slider-dot');
+
+            // Move slider
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-pink-500');
+                } else {
+                    dot.classList.remove('bg-pink-500');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateSlider();
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(nextSlide, 4000); // Auto slide every 4 seconds
+        }
+
+        function stopAutoSlide() {
+            clearInterval(slideInterval);
+        }
+
+        // Add smooth scrolling and interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize slider
+            updateSlider();
+            startAutoSlide();
+
+            // Add event listeners for slider controls
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                stopAutoSlide();
+                nextSlide();
+                setTimeout(startAutoSlide, 2000); // Restart auto slide after 2 seconds
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                stopAutoSlide();
+                prevSlide();
+                setTimeout(startAutoSlide, 2000); // Restart auto slide after 2 seconds
+            });
+
+            // Add click handlers for dots
+            document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    stopAutoSlide();
+                    goToSlide(index);
+                    setTimeout(startAutoSlide, 2000); // Restart auto slide after 2 seconds
+                });
+            });
+
+            // Pause auto slide on hover
+            const sliderContainer = document.querySelector('.slide-in-right');
+            sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
+
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add click handlers for buttons (excluding slider buttons)
+            document.querySelectorAll('button:not(#nextBtn):not(#prevBtn):not(.slider-dot)').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Touch/swipe support for mobile
+            let startX = 0;
+            let endX = 0;
+
+            sliderContainer.addEventListener('touchstart', (e) => {
+                startX = e.changedTouches[0].screenX;
+            });
+
+            sliderContainer.addEventListener('touchend', (e) => {
+                endX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = startX - endX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    stopAutoSlide();
+                    if (diff > 0) {
+                        nextSlide(); // Swipe left - next slide
+                    } else {
+                        prevSlide(); // Swipe right - previous slide
+                    }
+                    setTimeout(startAutoSlide, 2000);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>

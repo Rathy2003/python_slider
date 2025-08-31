@@ -1,0 +1,231 @@
+{% extends 'ecadmin/master.html' %}
+
+{% block style %}
+    <style>
+        #slider-wrapper{
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            .slider-card{
+                padding: 15px;
+                border-radius: 10px;
+                display: flex;
+                align-items: start;
+                gap: 15px;
+                box-shadow: 0px 0px 3px #ddd;
+                position: relative;
+
+                & > #slider-img > img{
+                    width: 300px;
+                    aspect-ratio: 1/0.6;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+
+                & > #slider-information{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                & #slider-move-wrapper{
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 25px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 25px;
+                    width: 200px;
+
+                    & button{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        background: transparent;
+                        border: 1px solid white;
+                        border-radius: 10px;
+                        transition: all ease-in-out 200ms;
+                        padding: 5px 5px;
+                        &:disabled{
+                            cursor: not-allowed;
+                        }
+
+                        &:not(:disabled){
+                            &:hover{
+                                background: white;
+                                color: black;
+                            }
+                        }
+
+                        & > svg{
+                            height: 40px;
+                        }
+                    }
+                }
+            }
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {# Start Delete Confirm Dialog #}
+    <dialog id="delete-confirm-dialog" class="w-[550px] m-auto rounded p-5 bg-white">
+        <div class="flex items-center justify-between border-b border-gray-500 pb-2">
+            <h1 class="font-bold">Delete Confirmation</h1>
+            <button class="font-bold text-gray-600 hover:text-gray-500" onclick="document.getElementById('delete-confirm-dialog').close()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="px-3 py-8 flex items-center justify-center flex-col gap-3">
+            <input type="hidden" id="slider-id" value="">
+            <div class="text-yellow-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[5.5rem] h-[5.5rem]">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                </svg>
+            </div>
+            <h1 class="text-lg text-center font-bold">Are you sure to delete this slider?. it can't undo.</h1>
+        </div>
+
+        <div class="flex gap-3 items-center justify-end border-t border-gray-500 pt-3">
+            <button onclick="document.getElementById('delete-confirm-dialog').close()" class="px-8 py-2 rounded bg-gray-600 hover:bg-gray-500 text-white">Cancel</button>
+            <button id="button-delete" class="px-8 py-2 rounded bg-red-500 hover:bg-red-600 text-white">Yes, Delete</button>
+        </div>
+
+    </dialog>
+    {# End Delete Confirm Dialog #}
+
+     <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+        <div class="flex-1 max-w-md">
+            <div class="relative">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+
+        <a href="{% url 'ecadmin.slider.create' %}" class="flex items-center justify-center px-8 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
+            </svg>
+            New Slider
+        </a>
+    </div>
+
+    <div id="slider-wrapper">
+        {% for slider in slider_list %}
+           <div class="slider-card">
+                <div id="slider-img">
+                    <img src="{{ slider.image }}">
+                </div>
+                <div id="slider-information">
+                    <h3>{{ slider.title }}</h3>
+                    <p>{{ slider.description }}</p>
+                    <div class="flex items-center gap-5">
+                        <button class="btn-remove text-red-500 text-sm hover:text-red-400" data-id="{{ slider.id }}">Remove</button>
+                        <a href="{% url 'ecadmin.slider.edit' id=slider.id %}" class="text-blue-500 text-sm hover:text-blue-600">Edit</a>
+                    </div>
+                </div>
+
+               {# Move Button #}
+               <form id="slider-move-wrapper" action="{% url 'ecadmin.slider.move' id=slider.id %}" method="POST">
+                   {% csrf_token %}
+
+                   {# if it is the first slider (slider 1) make it can't move up #}
+                   {% if slider.order == 1 %}
+                       <button type="button" name="move_up" disabled>
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                           </svg>
+                        </button>
+                   {% else %}
+                        <button type="submit" name="move_up">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                           </svg>
+                        </button>
+                   {% endif %}
+
+                   {% if slider.order == total_slider %}
+                       <button type="button" name="move_down" disabled>
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-2">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                           </svg>
+                       </button>
+                   {% else %}
+                       <button type="submit" name="move_down">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-2">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                           </svg>
+                       </button>
+                   {% endif %}
+               </form>
+               {# End Move Button #}
+           </div>
+        {% endfor %}
+    </div>
+
+    {#  Start No Slider Message  #}
+    {% if  total_slider <= 0%}
+        <div class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+            <h1 class="text-2xl text-center text-red-500">No Slider Founded</h1>
+        </div>
+    {% endif %}
+    {#  End No Slider Message  #}
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).on('click','button.btn-remove', function(e){
+            let dataId = $(this).data('id');
+            $("#slider-id").val(dataId);
+            document.querySelector("#delete-confirm-dialog").showModal()
+        })
+
+       $("#button-delete").on('click', function(e){
+           let dataId = $("#slider-id").val();
+           const csrftoken = getCookie('csrftoken');
+           $.ajax({
+               dataType: "json",
+               url: "{% url 'ecadmin.slider.delete' %}",
+               method: "POST",
+               headers: {'X-CSRFToken': csrftoken},
+               data: { id: dataId },
+               success: function(res){
+                   if(res.success){
+                       document.querySelector("#delete-confirm-dialog").close()
+                       window.location.reload();
+                   }
+               },
+               error: function(data){
+                   console.log(data);
+               }
+           })
+       })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'ecadmin/master.html' %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+        <div class="flex-1 max-w-md">
+            <div class="relative">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+                <!-- Left Section - Stats and Charts -->
+                <div class="xl:col-span-3 space-y-8">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Calories Burned -->
+                        <div class="stat-card rounded-xl p-6 animate-fade-in">
+                            <div class="flex items-center justify-center w-12 h-12 bg-orange-500 bg-opacity-20 rounded-xl mb-4">
+                                <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-1">305</div>
+                            <div class="text-gray-400 text-sm">Calories burned</div>
+                        </div>
+
+                        <!-- Steps -->
+                        <div class="stat-card rounded-xl p-6 animate-fade-in" style="animation-delay: 0.1s;">
+                            <div class="flex items-center justify-center w-12 h-12 bg-green-500 bg-opacity-20 rounded-xl mb-4">
+                                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-1">10,983</div>
+                            <div class="text-gray-400 text-sm">Steps</div>
+                        </div>
+
+                        <!-- Distance -->
+                        <div class="stat-card rounded-xl p-6 animate-fade-in" style="animation-delay: 0.2s;">
+                            <div class="flex items-center justify-center w-12 h-12 bg-pink-500 bg-opacity-20 rounded-xl mb-4">
+                                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-1">7km</div>
+                            <div class="text-gray-400 text-sm">Distance</div>
+                        </div>
+
+                        <!-- Sleep -->
+                        <div class="stat-card rounded-xl p-6 animate-fade-in" style="animation-delay: 0.3s;">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-500 bg-opacity-20 rounded-xl mb-4">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-1">7h48m</div>
+                            <div class="text-gray-400 text-sm">Sleep</div>
+                        </div>
+                    </div>
+
+                    <!-- Steps Overview Chart -->
+                    <div class="chart-container rounded-xl p-6 animate-fade-in" style="animation-delay: 0.4s;">
+                        <h3 class="text-xl font-semibold text-white mb-6">Steps Overview</h3>
+                        <canvas id="stepsChart" width="800" height="300"></canvas>
+                    </div>
+
+                    <!-- Activity Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Activity Level -->
+                        <div class="chart-container rounded-xl p-6 animate-fade-in" style="animation-delay: 0.5s;">
+                            <h3 class="text-lg font-semibold text-white mb-4">Activity Level</h3>
+                            <canvas id="activityChart" width="200" height="200"></canvas>
+                            <div class="flex justify-center mt-4 space-x-2 text-xs text-gray-400">
+                                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                            </div>
+                        </div>
+
+                        <!-- Nutrition -->
+                        <div class="chart-container rounded-xl p-6 animate-fade-in" style="animation-delay: 0.6s;">
+                            <h3 class="text-lg font-semibold text-white mb-4">Nutrition</h3>
+                            <canvas id="nutritionChart" width="200" height="200"></canvas>
+                            <div class="flex justify-center mt-4 space-x-2 text-xs text-gray-400">
+                                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                            </div>
+                        </div>
+
+                        <!-- Hydration Level -->
+                        <div class="chart-container rounded-xl p-6 animate-fade-in" style="animation-delay: 0.7s;">
+                            <h3 class="text-lg font-semibold text-white mb-4">Hydration Level</h3>
+                            <canvas id="hydrationChart" width="200" height="200"></canvas>
+                            <div class="flex justify-center mt-4 space-x-2 text-xs text-gray-400">
+                                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section - Profile and Schedule -->
+                <div class="xl:col-span-1 space-y-6">
+                    <!-- Profile Card -->
+                    <div class="profile-card rounded-xl p-6 text-center animate-fade-in" style="animation-delay: 0.8s;">
+                        <div class="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616c96ce75f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                                 alt="Summer"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Summer</h3>
+                        <p class="text-blue-400 text-sm mb-4">Edit health details</p>
+
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <p class="text-gray-400 text-xs mb-1">Weight</p>
+                                <p class="text-white font-semibold">53kg</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-xs mb-1">Height</p>
+                                <p class="text-white font-semibold">162cm</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-xs mb-1">Blood Type</p>
+                                <p class="text-white font-semibold">O+</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scheduled Activities -->
+                    <div class="animate-fade-in" style="animation-delay: 0.9s;">
+                        <h3 class="text-lg font-semibold text-white mb-4">Scheduled</h3>
+                        <div class="space-y-3">
+                            <div class="scheduled-item rounded-xl p-4 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-white font-medium">Hatha Yoga</h4>
+                                    <p class="text-gray-400 text-sm">Today, 9AM - 10AM</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-white">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="scheduled-item rounded-xl p-4 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-white font-medium">Body Combat</h4>
+                                    <p class="text-gray-400 text-sm">Tomorrow, 5PM - 6PM</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-white">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="scheduled-item rounded-xl p-4 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-white font-medium">Hatha Yoga</h4>
+                                    <p class="text-gray-400 text-sm">Wednesday, 9AM - 10AM</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-white">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

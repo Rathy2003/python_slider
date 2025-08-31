@@ -1,0 +1,97 @@
+{% extends 'ecadmin/master.html' %}
+
+{% block content %}
+    <style>
+        #preview-wrapper::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.2); /* Black overlay with 50% opacity */
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        #preview-wrapper:hover::before{
+            opacity: 1;
+        }
+    </style>
+
+    <h1 class="mb-8 text-2xl text-center font-bold border-b border-gray-500 pb-3">Edit Slider</h1>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div id="message" class="bg-green-500 p-4 mb-4 rounded flex items-center justify-between">
+                    {{ message }}
+                    <button onclick="document.getElementById('message').remove()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form class="w-full" action="{% url 'ecadmin.slider.edit' id=slider_item.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="flex gap-8">
+                {# Left Side #}
+                <div class="w-1/2">
+                     <div class="mb-5">
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                        <input type="text" id="title" value="{{ slider_item.title }}" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Slider Title" required />
+                     </div>
+                     <div class="mb-5">
+                        <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
+                        <input type="text" name="link" value="{{ slider_item.link }}" id="link" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Slider Link" required />
+                     </div>
+                    <div class="mb-5">
+                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        <textarea name="description" id="description" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Description">{{ slider_item.description }}</textarea>
+                     </div>
+                </div>
+                {# Right Side #}
+                <div class="w-1/2">
+                    <div class="mb-5">
+                        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
+                        <label for="image-upload" class="relative block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <div id="preview-wrapper" style="background-image: url('{{ slider_item.image }}');background-position: center;background-size: cover;background-repeat: no-repeat;" class="bg-gray-700 hover:bg-gray-600 h-[320px] cursor-pointer rounded flex items-center justify-center">
+                               <div class="flex flex-col items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                    </svg>
+                                   <p>Upload File .JPG, Webp and .png</p>
+                               </div>
+                            </div>
+                        </label>
+                        <input name="image" type="file" id="image-upload" class="hidden"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex gap-3 justify-end border-t border-gray-500 pt-4">
+                <a href="{% url 'ecadmin.slider' %}" class="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Close</a>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save Change</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const imageUploader = document.getElementById('image-upload');
+            const previewWrapper = document.getElementById('preview-wrapper');
+            imageUploader.addEventListener('change', function(evt){
+                const file = evt.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(){
+                    previewWrapper.style.backgroundImage = 'url(' + reader.result + ')';
+                }
+            })
+        })
+    </script>
+
+{% endblock %}
